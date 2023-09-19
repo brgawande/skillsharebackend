@@ -12,7 +12,11 @@ app.use(
   })
 );
 app.use(cookieParser());
-app.use(cors({}));
+app.use(cors({
+  origin: [process.env.FRONTEND_URL],
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true,
+}));
 
 // using routes
 import userRouter from "./routes/userRoutes.js";
