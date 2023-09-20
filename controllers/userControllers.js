@@ -1,5 +1,6 @@
 import { catchAsyncError } from "../middlewares/catchAsyncError.js";
 import { Course } from "../models/courseModel.js";
+import { Stats } from "../models/statsModel.js";
 import { User } from "../models/userModel.js";
 import ErrorHandler from "../utils/ErrorHandler.js";
 import getDataUri from "../utils/datauri.js";
@@ -143,7 +144,6 @@ export const changePassword = catchAsyncError(async (req, res, next) => {
   });
 });
 
-
 // admin controllers
 
 export const getAllUsers = catchAsyncError(async (req, res, next) => {
@@ -234,4 +234,17 @@ export const removeFromPlaylist = catchAsyncError(async (req, res, next) => {
     success: true,
     message: "Course Removed From Playlist",
   });
+});
+
+// yaha ek watcher create karenge ... ye real time data check karenga ki jaise hi update ho wo function call ho jayenga
+User.watch().on("change", async () => {
+  const stats = await Stats.find({}).sort({ createdAt: "desc" }).limit(1);
+
+  const subscription = await User.find({ "subscription.status": "active" });
+
+  stats[0].users = await User.countDocuments();
+  stats[0].subscriptions = subscription.length;
+  stats[0].createdAt = new Date(Date.now());
+
+  await stats[0].save();
 });

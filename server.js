@@ -4,6 +4,7 @@ import { connectdb } from "./config/database.js";
 import cloudinary from "cloudinary";
 import NodeCron from "node-cron";
 import { Stats } from "./models/statsModel.js";
+import Razorpay from "razorpay";
 dotenv.config({
   path: "./config/config.env",
 });
@@ -16,6 +17,10 @@ cloudinary.v2.config({
 });
 
 // payments
+export const instance = new Razorpay({
+  key_id: process.env.RAZORPAY_API_KEY,
+  key_secret: process.env.RAZORPAY_API_SECRET,
+});
 
 // nodecors
 // this starts denotres seconds minutes hours days months years

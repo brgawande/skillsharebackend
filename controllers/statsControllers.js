@@ -10,7 +10,7 @@ export const getDashboardStats = catchAsyncError(async (req, res, next) => {
   // stats ke data ki empty array banayenge
   const statsData = [];
 
-  for (let i = 0; i < stats.length.length; i++) {
+  for (let i = 0; i < stats.length; i++) {
     statsData.unshift(stats[i]);
   }
 

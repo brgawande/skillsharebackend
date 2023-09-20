@@ -12,15 +12,23 @@ app.use(
   })
 );
 app.use(cookieParser());
-app.use(cors({}));
+app.use(
+  cors({
+    origin: [process.env.FRONTEND_URL],
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true,
+  })
+);
 
 // using routes
 import userRouter from "./routes/userRoutes.js";
 import courseRouter from "./routes/courseRouter.js";
 import statsRouter from "./routes/statsRoutes.js";
+import paymentRouter from "./routes/paymentRoutes.js";
 app.use("/api/v1", userRouter);
 app.use("/api/v1", courseRouter);
 app.use("/api/v1", statsRouter);
+app.use("/api/v1", paymentRouter);
 
 export default app;
 
