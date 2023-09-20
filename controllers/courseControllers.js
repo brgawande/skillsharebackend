@@ -15,7 +15,7 @@ export const getAllCourses = catchAsyncError(async (req, res, next) => {
     },
     category: {
       $regex: category,
-      options: "i",
+      $options: "i",
     },
   }).select("-lectures");
 
